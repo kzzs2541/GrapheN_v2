@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
+    private JPanel currentVisualizationPanel;
+    private JPanel controlPanel;
     public MainFrame() {
         super("GrapheN");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -12,9 +14,8 @@ public class MainFrame extends JFrame {
         JPanel menu = createMenuPanel();
         add(menu, BorderLayout.WEST);
 
-        // Prawy panel (wizualizacja)
-        //JPanel visualizationPanel = createVisualizationPanel();
-        //add(visualizationPanel, BorderLayout.CENTER);
+        currentVisualizationPanel = createVisualizationPanel();
+        add(currentVisualizationPanel, BorderLayout.CENTER);
     }
 
     private JPanel createMenuPanel() {
@@ -37,9 +38,31 @@ public class MainFrame extends JFrame {
     public JPanel createVisualizationPanel() {
         JPanel graphPanel = new JPanel();
         graphPanel.setBackground(Color.WHITE);
-        graphPanel.setBorder(BorderFactory.createTitledBorder("Visualization Area"));
+        //graphPanel.setBorder(BorderFactory.createTitledBorder("Visualization Area"));
         return graphPanel;
         //na razie jest to placeholder, po wczytaniu grafu zostanie zastapione nowym panelem
     }
+    public void updateVisualizationPanel(JPanel newPanel) {
+        // Usuń stary panel wizualizacji
+        remove(currentVisualizationPanel);
+
+        // Jeśli istnieje controlPanel (z checkboxami), usuń go
+        if (controlPanel != null) {
+            remove(controlPanel);
+        }
+
+        // Ustaw nowy panel jako aktualny
+        currentVisualizationPanel = newPanel;
+        add(currentVisualizationPanel, BorderLayout.CENTER);
+        add(controlPanel, BorderLayout.NORTH);
+
+        revalidate();
+        repaint();
+    }
+
+    public void setControlPanel(JPanel controlPanel) {
+        this.controlPanel = controlPanel;
+    }
+
 }
 

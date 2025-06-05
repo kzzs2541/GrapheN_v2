@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -160,6 +158,48 @@ public class Graph {
                 }
             }
         }
+        return graph;
+    }
+
+    public static Graph loadCGraphBIN(String filepath) throws IOException{
+        Graph graph = new Graph();
+        DataInputStream dis = new DataInputStream(new FileInputStream(filepath));
+        int id = 0;
+        int color = 0;
+
+        int width, height;
+        width = Integer.reverseBytes(dis.readInt());
+        height = Integer.reverseBytes(dis.readInt());
+
+        int pos;
+
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                pos = Integer.reverseBytes(dis.readInt());
+                if(pos == 1){
+                    graph.addVertex(id, new Vertices(id, j, i, 0));
+                    id++;
+                }
+            }
+        }
+        int numOfSubgraphs = Integer.reverseBytes(dis.readInt());
+
+        for(int i = 0; i < numOfSubgraphs; i++){
+            int numOfPairs = Integer.reverseBytes(dis.readInt());
+            for(int j = 0; j < numOfPairs; j++){
+                int v1 = Integer.reverseBytes(dis.readInt());
+                int v2 = Integer.reverseBytes(dis.readInt());
+                if (v2 != -1) {
+                    graph.addEdge(v1, v2);
+                    Vertices w = graph.graph.get(v2);
+                    w.setColor(color);
+                }
+                Vertices w1 = graph.graph.get(v1);
+                w1.setColor(color);
+            }
+            color++;
+        }
+        dis.close();
         return graph;
     }
 

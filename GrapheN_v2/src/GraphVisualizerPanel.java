@@ -48,17 +48,54 @@ public class GraphVisualizerPanel extends JPanel {
                 extension = name.substring(lastDotIndex + 1);
             }
             if(extension.equals("csrrg")){
-                graf = Graph.loadCSRRGGraph(selectedFile.getAbsolutePath());
+                if(selectedFile.getAbsolutePath().contains("og_files")){
+                    graf = Graph.loadCSRRGGraph(selectedFile.getAbsolutePath());
+                }else{
+                    showCenteredMessage(
+                            "Plik .csrrg musi być w folderze 'og_files'!",
+                            "Błąd",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
             }else if(extension.equals("txt")){
-                //graf = Graph.loadTXTGraph(selectedFile.getAbsolutePath());
-                graf = Graph.loadCGraphTXT(selectedFile.getAbsolutePath());
+                if(selectedFile.getAbsolutePath().contains("own_c")){
+                    graf = Graph.loadCGraphTXT(selectedFile.getAbsolutePath());
+                }else if(selectedFile.getAbsolutePath().contains("supplied_c")){
+                    graf = Graph.loadTXTGraph(selectedFile.getAbsolutePath());
+                }
+            }else if(extension.equals("bin")){
+                if(selectedFile.getAbsolutePath().contains("own_c")){
+                    graf = Graph.loadCGraphBIN(selectedFile.getAbsolutePath());
+                }/*else if(selectedFile.getAbsolutePath().contains("supplied_c")){
+                    graf = Graph.loadTXTGraph(selectedFile.getAbsolutePath());
+                }*/
+            } else {
+                showCenteredMessage(
+                        "Nieobsługiwane rozszerzenie pliku: " + extension + "\n" +
+                                "Obsługiwane rozszerzenia: .txt, .csrrg",
+                        "Błąd",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            parent.add(new GraphPanel(graf.getWierzcholki(), parent), BorderLayout.CENTER);
-            parent.revalidate();
-            parent.repaint();
+            if (graf == null || graf.getWierzcholki() == null || graf.getWierzcholki().isEmpty()) {
+                showCenteredMessage(
+                        "Nie udało się wczytać grafu z pliku!",
+                        "Błąd",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            parent.updateVisualizationPanel(new GraphPanel(graf.getWierzcholki(), parent));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private void showCenteredMessage(String message, String title, int messageType) {
+        JOptionPane pane = new JOptionPane(message, messageType);
+        JDialog dialog = pane.createDialog(this, title);
+        dialog.setLocationRelativeTo(null); // Wyśrodkuj na ekranie
+        dialog.setVisible(true);
+    }
 }
-//

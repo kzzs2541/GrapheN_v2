@@ -32,7 +32,6 @@ public class GraphPanel extends JPanel {
         for (Vertices v : wierzcholki.values()) {
             allParts.add(v.getColor());
         }
-
         // Stwórz checkboxy dla każdego podgrafu
         for (int part : allParts) {
             JCheckBox checkBox = new JCheckBox("Podgraf " + (part + 1), true);
@@ -49,8 +48,8 @@ public class GraphPanel extends JPanel {
             controlPanel.add(checkBox);
             visibleParts.add(part); // Domyślnie wszystkie widoczne
         }
+        parent.setControlPanel(controlPanel);
 
-        parent.add(controlPanel, BorderLayout.NORTH);
 
         // Nasłuchiwanie zoomu
         addMouseWheelListener(e -> {
