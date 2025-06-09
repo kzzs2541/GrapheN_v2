@@ -59,17 +59,15 @@ public class GraphVisualizerPanel extends JPanel {
                 }
 
             }else if(extension.equals("txt")){
-                if(selectedFile.getAbsolutePath().contains("own_c")){
+                if(selectedFile.getAbsolutePath().contains("own_c") || selectedFile.getAbsolutePath().contains("own_java")){
                     graf = Graph.loadCGraphTXT(selectedFile.getAbsolutePath());
                 }else if(selectedFile.getAbsolutePath().contains("supplied_c")){
                     graf = Graph.loadTXTGraph(selectedFile.getAbsolutePath());
                 }
             }else if(extension.equals("bin")){
-                if(selectedFile.getAbsolutePath().contains("own_c")){
+                if(selectedFile.getAbsolutePath().contains("own_c") || selectedFile.getAbsolutePath().contains("own_java")){
                     graf = Graph.loadCGraphBIN(selectedFile.getAbsolutePath());
-                }/*else if(selectedFile.getAbsolutePath().contains("supplied_c")){
-                    graf = Graph.loadTXTGraph(selectedFile.getAbsolutePath());
-                }*/
+                }
             } else {
                 showCenteredMessage(
                         "Nieobsługiwane rozszerzenie pliku: " + extension + "\n" +

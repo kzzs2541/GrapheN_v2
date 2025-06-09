@@ -19,6 +19,7 @@ public class GraphPanel extends JPanel {
             Color.PINK, Color.CYAN, Color.ORANGE, Color.MAGENTA};
 
     public GraphPanel(Map<Integer, Vertices> wierzcholki, MainFrame parent) {
+        if(parent.getControlPanel() != null) parent.removeControlPanel();
         this.wierzcholki = wierzcholki;
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());
@@ -48,7 +49,7 @@ public class GraphPanel extends JPanel {
             controlPanel.add(checkBox);
             visibleParts.add(part); // Domyślnie wszystkie widoczne
         }
-        parent.setControlPanel(controlPanel);
+
 
 
         // Nasłuchiwanie zoomu
@@ -79,6 +80,8 @@ public class GraphPanel extends JPanel {
                 repaint();
             }
         });
+        parent.setControlPanel(controlPanel);
+        parent.add(controlPanel, BorderLayout.NORTH);
     }
 
     @Override

@@ -47,21 +47,29 @@ public class MainFrame extends JFrame {
         remove(currentVisualizationPanel);
 
         // Jeśli istnieje controlPanel (z checkboxami), usuń go
-        if (controlPanel != null) {
-            remove(controlPanel);
-        }
+
+        //remove(controlPanel);
+
 
         // Ustaw nowy panel jako aktualny
         currentVisualizationPanel = newPanel;
         add(currentVisualizationPanel, BorderLayout.CENTER);
-        add(controlPanel, BorderLayout.NORTH);
+        //add(controlPanel, BorderLayout.NORTH);
 
-        revalidate();
-        repaint();
+        this.revalidate();
+        this.repaint();
     }
 
     public void setControlPanel(JPanel controlPanel) {
         this.controlPanel = controlPanel;
+    }
+
+    public JPanel getControlPanel(){
+        return controlPanel;
+    }
+
+    public void removeControlPanel(){
+        remove(controlPanel);
     }
 
 }

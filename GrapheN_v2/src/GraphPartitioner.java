@@ -374,8 +374,8 @@ public class GraphPartitioner
                 writer.println("]");
             }
 
-            writer.println();
-            writer.println();
+            //writer.println();
+            //writer.println();
 
             //polaczenia i kolory
             Map<Integer, List<Vertices>> colorGroups = new HashMap<>();
