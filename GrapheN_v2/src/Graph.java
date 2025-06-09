@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.*;
 
 public class Graph {
@@ -9,6 +7,23 @@ public class Graph {
 
     public Graph(){
         this.graph = new HashMap<>();
+    }
+
+    // Metody pomocnicze potrzebne dla algorytmu podziału
+    public int getVertexCount() {
+        return graph.size();
+    }
+
+    public Set<Integer> getVertices() {
+        return graph.keySet();
+    }
+
+    public List<Vertices> getNeighbors(int vertexId) {
+        Vertices vertex = graph.get(vertexId);
+        if (vertex != null) {
+            return vertex.getNeighbors();
+        }
+        return Collections.emptyList();
     }
 
     public void addVertex(int id, Vertices vertex) {
